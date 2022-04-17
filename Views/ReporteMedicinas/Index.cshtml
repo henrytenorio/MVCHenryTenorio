@@ -1,0 +1,40 @@
+﻿@model List<MVCHenryTenorio.Models.ViewModels.ReporteViewModel>
+@{
+    ViewBag.Title = "Reporte Medicinas para Pacientes";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row" style="text-align:right">
+    <div class="col-md-12">
+        <a href="~/ReporteMedicinas/Index" class="btn btn-primary">Actualizar</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>Paciente</th>
+                <th>Telefono</th>
+                <th>Medicina</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+        <tr>
+            <td>@item.NombrePaciente</td>
+            <td>@item.Telefono</td>
+            <td>@item.Medicina</td>
+            <td>@item.FechaIni</td>
+            <td>@item.FechaFin</td>
+
+        </tr>
+
+            }
+
+        </table>
+    </div>
+
+</div>

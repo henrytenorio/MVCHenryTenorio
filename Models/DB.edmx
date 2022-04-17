@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="pacientesmvcModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Medicina">
+          <Key>
+            <PropertyRef Name="MedicinaID" />
+          </Key>
+          <Property Name="MedicinaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Cobrable" Type="char" MaxLength="1" />
+          <Property Name="Generico" Type="char" MaxLength="1" />
+          <Property Name="Activo" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="PacienteID" />
+          </Key>
+          <Property Name="PacienteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" />
+          <Property Name="Prefijo" Type="varchar" MaxLength="5" />
+          <Property Name="Direccion" Type="varchar" MaxLength="150" />
+          <Property Name="Telefono" Type="varchar" MaxLength="10" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Estado" Type="char" MaxLength="1" />
+          <Property Name="Sexo" Type="char" MaxLength="1" />
+          <Property Name="Peso" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Altura" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Activo" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Prescripcion">
+          <Key>
+            <PropertyRef Name="PrescripcionID" />
+          </Key>
+          <Property Name="PrescripcionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PacienteID" Type="int" />
+          <Property Name="MedicinaID" Type="int" />
+          <Property Name="FechaIni" Type="datetime" />
+          <Property Name="FechaFin" Type="datetime" />
+        </EntityType>
+        <Association Name="fk_medicina">
+          <End Role="Medicina" Type="Self.Medicina" Multiplicity="0..1" />
+          <End Role="Prescripcion" Type="Self.Prescripcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicina">
+              <PropertyRef Name="MedicinaID" />
+            </Principal>
+            <Dependent Role="Prescripcion">
+              <PropertyRef Name="MedicinaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+          <End Role="Prescripcion" Type="Self.Prescripcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="PacienteID" />
+            </Principal>
+            <Dependent Role="Prescripcion">
+              <PropertyRef Name="PacienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="F_Reporte_Medicinas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="pacientesmvcModelStoreContainer">
+          <EntitySet Name="Medicina" EntityType="Self.Medicina" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Prescripcion" EntityType="Self.Prescripcion" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_medicina" Association="Self.fk_medicina">
+            <End Role="Medicina" EntitySet="Medicina" />
+            <End Role="Prescripcion" EntitySet="Prescripcion" />
+          </AssociationSet>
+          <AssociationSet Name="fk_paciente" Association="Self.fk_paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Prescripcion" EntitySet="Prescripcion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="pacientesmvcModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Medicina">
+          <Key>
+            <PropertyRef Name="MedicinaID" />
+          </Key>
+          <Property Name="MedicinaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cobrable" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Generico" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Activo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Prescripcion" Relationship="Self.fk_medicina" FromRole="Medicina" ToRole="Prescripcion" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="PacienteID" />
+          </Key>
+          <Property Name="PacienteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prefijo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Peso" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Altura" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Activo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Prescripcion" Relationship="Self.fk_paciente" FromRole="Paciente" ToRole="Prescripcion" />
+        </EntityType>
+        <EntityType Name="Prescripcion">
+          <Key>
+            <PropertyRef Name="PrescripcionID" />
+          </Key>
+          <Property Name="PrescripcionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PacienteID" Type="Int32" />
+          <Property Name="MedicinaID" Type="Int32" />
+          <Property Name="FechaIni" Type="DateTime" Precision="3" />
+          <Property Name="FechaFin" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Medicina" Relationship="Self.fk_medicina" FromRole="Prescripcion" ToRole="Medicina" />
+          <NavigationProperty Name="Paciente" Relationship="Self.fk_paciente" FromRole="Prescripcion" ToRole="Paciente" />
+        </EntityType>
+        <Association Name="fk_medicina">
+          <End Role="Medicina" Type="Self.Medicina" Multiplicity="0..1" />
+          <End Role="Prescripcion" Type="Self.Prescripcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicina">
+              <PropertyRef Name="MedicinaID" />
+            </Principal>
+            <Dependent Role="Prescripcion">
+              <PropertyRef Name="MedicinaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+          <End Role="Prescripcion" Type="Self.Prescripcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="PacienteID" />
+            </Principal>
+            <Dependent Role="Prescripcion">
+              <PropertyRef Name="PacienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="pacientesmvcEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Medicina" EntityType="Self.Medicina" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" />
+          <EntitySet Name="Prescripcion" EntityType="Self.Prescripcion" />
+          <AssociationSet Name="fk_medicina" Association="Self.fk_medicina">
+            <End Role="Medicina" EntitySet="Medicina" />
+            <End Role="Prescripcion" EntitySet="Prescripcion" />
+          </AssociationSet>
+          <AssociationSet Name="fk_paciente" Association="Self.fk_paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Prescripcion" EntitySet="Prescripcion" />
+          </AssociationSet>
+          <FunctionImport Name="F_Reporte_Medicinas" ReturnType="Collection(pacientesmvcModel.F_Reporte_Medicinas_Result)" />
+        </EntityContainer>
+        <ComplexType Name="F_Reporte_Medicinas_Result">
+          <Property Type="Int32" Name="PacienteID" Nullable="false" />
+          <Property Type="String" Name="NombrePaciente" Nullable="false" MaxLength="108" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="16" />
+          <Property Type="String" Name="Medicina" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaIni" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="pacientesmvcModelStoreContainer" CdmEntityContainer="pacientesmvcEntities">
+          <EntitySetMapping Name="Medicina">
+            <EntityTypeMapping TypeName="pacientesmvcModel.Medicina">
+              <MappingFragment StoreEntitySet="Medicina">
+                <ScalarProperty Name="MedicinaID" ColumnName="MedicinaID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cobrable" ColumnName="Cobrable" />
+                <ScalarProperty Name="Generico" ColumnName="Generico" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paciente">
+            <EntityTypeMapping TypeName="pacientesmvcModel.Paciente">
+              <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Prefijo" ColumnName="Prefijo" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Altura" ColumnName="Altura" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Prescripcion">
+            <EntityTypeMapping TypeName="pacientesmvcModel.Prescripcion">
+              <MappingFragment StoreEntitySet="Prescripcion">
+                <ScalarProperty Name="PrescripcionID" ColumnName="PrescripcionID" />
+                <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+                <ScalarProperty Name="MedicinaID" ColumnName="MedicinaID" />
+                <ScalarProperty Name="FechaIni" ColumnName="FechaIni" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="F_Reporte_Medicinas" FunctionName="pacientesmvcModel.Store.F_Reporte_Medicinas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="pacientesmvcModel.F_Reporte_Medicinas_Result">
+                <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+                <ScalarProperty Name="NombrePaciente" ColumnName="NombrePaciente" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Medicina" ColumnName="Medicina" />
+                <ScalarProperty Name="FechaIni" ColumnName="FechaIni" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
